@@ -10,7 +10,7 @@ API v.0.1 Endpoints
   * - **URL**
     - **Method**
     - **Description**
-  * - /awesomeapi/0.1/cities?<**city_list**>
+  * - /awesomeapi/0.1/cities?name=<**city_list**>
     - GET
     - :ref:`ref_get_cities_info`
 
@@ -28,7 +28,7 @@ of up to 5 cities.
 Request url
 ~~~~~~~~~~~
 
-https://host/awesomeapi/0.1/cities?<**city_list**>
+https://host/awesomeapi/0.1/cities?name=<**city_list**>
 
 
 Request headers
@@ -55,7 +55,7 @@ Request query string
      - **Cardinality**
      - **Default**
      - **Notes**
-   * - cities
+   * - name
      - String
      - 1:5
      -
@@ -101,5 +101,54 @@ Response body (JSON)
      - Contains businesses information for provided city.
 
 
-.. todo:: Define geo, weather and business sub-structures based on information collected
+.. todo:: **TODO**: Define geo, weather and business sub-structures based on information collected
           from external APIs
+
+
+Example Success Response
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case of success, service will respond with HTTP status `200 - OK`
+and the following response JSON body:
+
+.. code-block:: json
+
+    {
+      "cities": [
+        {
+          "name": "New York",
+          "geo": {},
+          "weather": {},
+          "businesses": {}
+        },
+        {
+          "name": "London",
+          "geo": {},
+          "weather": {},
+          "businesses": {}
+        },
+        {
+          "name": "Paris",
+          "geo": {},
+          "weather": {},
+          "businesses": {}
+        },
+        {
+          "name": "Paris",
+          "geo": {},
+          "weather": {},
+          "businesses": {}
+        },
+        {
+          "name": "Madrid",
+          "geo": {},
+          "weather": {},
+          "businesses": {}
+        }
+      ]
+    }
+
+Example Error Response
+~~~~~~~~~~~~~~~~~~~~~~
+
+See section :ref:`_ref_api_error_handling`

@@ -1,3 +1,5 @@
+.. _ref_api_error_handling:
+
 API Error Handling
 ==================
 
