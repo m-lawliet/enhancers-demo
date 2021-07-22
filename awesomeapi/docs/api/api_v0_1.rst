@@ -1,8 +1,6 @@
 API v.0.1 Endpoints
 ===================
 
-.. cssclass:: longtable
-
 .. list-table:: Summary REST API
   :header-rows: 1
   :widths: 45, 10, 40
@@ -67,7 +65,7 @@ Response body (JSON)
 
 .. list-table:: Response body fields
    :header-rows: 1
-   :widths: 15, 12, 15, 13, 53
+   :widths: 20, 10, 15, 13, 50
 
    * - **Field**
      - **Type**
@@ -101,12 +99,23 @@ Response body (JSON)
      - Contains businesses information for provided city.
 
 
-.. todo:: **TODO**: Define geo, weather and business sub-structures based on information collected
-          from external APIs
+**TODO**: Define geo, weather and business sub-structures based on information collected
+from external APIs
 
 
-Example Success Response
-~~~~~~~~~~~~~~~~~~~~~~~~
+Example
+~~~~~~~
+
+Request
+"""""""
+
+The client performs the following request:
+
+GET https://host/awesomeapi/0.1/cities?name=New%20York,London,Paris,Rome,Madrid
+
+
+Success Response
+""""""""""""""""
 
 In case of success, service will respond with HTTP status `200 - OK`
 and the following response JSON body:
@@ -134,7 +143,7 @@ and the following response JSON body:
           "businesses": {}
         },
         {
-          "name": "Paris",
+          "name": "Rome",
           "geo": {},
           "weather": {},
           "businesses": {}
@@ -148,7 +157,8 @@ and the following response JSON body:
       ]
     }
 
-Example Error Response
-~~~~~~~~~~~~~~~~~~~~~~
+
+Error Response
+""""""""""""""
 
 See section :ref:`_ref_api_error_handling`
