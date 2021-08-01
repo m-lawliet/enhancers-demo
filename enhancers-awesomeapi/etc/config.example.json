@@ -1,0 +1,19 @@
+{
+  "server": {
+    "address": "localhost",
+    "port": 3000
+  },
+  "logger": {
+    "timezone": "Europe/Rome",
+    "fileTransport": {
+      "level": "info",
+      "filename": "./logs/server.log",
+      "maxFiles": 5,
+      "maxsize": 5242880,
+      "zippedArchive": true
+    },
+    "consoleTransport": {
+      "level": "info"
+    }
+  }
+}

@@ -3,7 +3,7 @@ const defaultMiddlewares = require('./middlewares');
 
 const configSchema = require('./schemas/baseServerConfig.json');
 
-class BaseServer {
+class Server {
   constructor(config, shared = {}) {
     const label = 'server';
     const { address, port, prefix } = config;
@@ -79,4 +79,4 @@ class BaseServer {
   }
 }
 
-module.exports = { BaseServer };
+module.exports = { Server };
