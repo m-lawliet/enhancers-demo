@@ -62,13 +62,12 @@ function logRequest() {
 
     // NOTE: Log completed request message only if is not an error
     // (log will be performed by errorHandler in such case)
-    const { status } = res;
+    const { statusCode: status } = res;
     const category = Math.floor(status / 100);
-    if (category === 2) {
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
-      res.locals.logger = res.locals.logger.child({ status, responseTime });
-      res.locals.logger.http('Completed request');
-    }
+    const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+    res.locals.logger = res.locals.logger.child({ status, responseTime });
+    if (category === 2) res.locals.logger.http('Completed request');
+    else res.locals.logger.error('Failed request');
   };
 }
 
