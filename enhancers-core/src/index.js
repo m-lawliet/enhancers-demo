@@ -1,11 +1,13 @@
-const { Configurator } = require('../src/configurator/configurator');
-const { Logger } = require('../src/logger/logger');
-const { Server } = require('../src/server/server');
-const { Validator } = require('../src/validator/validator');
+const { Configurator } = require('./configurator/configurator');
+const { Logger } = require('./logger/logger');
+const { Server } = require('./server/server');
+const { Validator } = require('./validator/validator');
+const { GeolocationService } = require('./geolocation/geolocationService');
 
 module.exports = {
   Configurator,
   Logger,
   Server,
-  Validator
+  Validator,
+  GeolocationService,
 };

@@ -1,0 +1,13 @@
+{
+  "title": "Geolocation Service Config Schema",
+  "description": "This schema is used to validate Geolocation Service config",
+  "type": "object",
+  "properties": {
+    "baseURL": {"type": "string", "format": "uri-reference"},
+    "directGeocodingURL": {"type": "string", "format": "uri-reference"},
+    "apiKey": {"type": "string"},
+    "timeout": {"type": "number", "minimum": 0, "default": 5000}
+  },
+  "required": ["baseURL", "directGeocodingURL", "apiKey"],
+  "additionalProperties": false
+}
