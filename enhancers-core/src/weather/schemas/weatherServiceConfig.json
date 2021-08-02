@@ -1,6 +1,6 @@
 {
-  "title": "Geolocation Service Config Schema",
-  "description": "This schema is used to validate Geolocation Service config",
+  "title": "Weather Service Config Schema",
+  "description": "This schema is used to validate Weather Service config",
   "type": "object",
   "properties": {
     "baseURL": {"type": "string", "format": "uri-reference"},

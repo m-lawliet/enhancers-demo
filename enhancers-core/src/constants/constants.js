@@ -7,13 +7,14 @@ const DEFAULT_RESPONSES = Object.freeze({
   OK: 'Ok',
 });
 
-const DEFAULT_GEOLOCATION = Object.freeze({
-  LIMIT: 1,
+const DEFAULT_APIS = Object.freeze({
   LANGUAGE: 'en',
+  UNITS: 'metric',
+  LIMIT_LOCATIONS: 1,
 });
 
 module.exports = {
   ERROR_CODES,
   DEFAULT_RESPONSES,
-  DEFAULT_GEOLOCATION,
+  DEFAULT_APIS,
 };

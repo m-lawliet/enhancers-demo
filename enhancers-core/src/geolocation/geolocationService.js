@@ -1,17 +1,18 @@
 const axios = require('axios');
 
 const configSchema = require('./schemas/geolocationServiceConfig.json');
-const { DEFAULT_GEOLOCATION } = require('../constants/constants');
+const { DEFAULT_APIS } = require('../constants/constants');
 
 class GeolocationService {
   constructor(config, shared) {
-    this.logger = shared.logger.child({ label: 'geo' });
+    const label = 'geo';
+    this.logger = shared.logger.child({ label });
     this.validator = shared.validator;
-    this.validator.addSchema('geolocation', configSchema);
-    this.validator.ensure('geolocation', config);
+    this.validator.addSchema(label, configSchema);
+    this.validator.ensure(label, config);
     this.apiKey = config.apiKey;
     this.baseURL = config.baseURL;
-    this.directGeocodingURL = config.directGeocodingURL;
+    this.apiURL = config.apiURL;
     this.timeout = config.timeout;
     const { baseURL, timeout } = this;
     this.axios = axios.create({ baseURL, timeout });
@@ -19,11 +20,11 @@ class GeolocationService {
 
   async getLocationsByName(name, options = {}) {
     let results = [];
-    const { apiKey: appid, directGeocodingURL: url } = this;
+    const { apiKey: appid, apiURL: url } = this;
     const {
       id,
-      limit = DEFAULT_GEOLOCATION.LIMIT,
-      lang = DEFAULT_GEOLOCATION.LANGUAGE,
+      limit = DEFAULT_APIS.LIMIT_LOCATIONS,
+      lang = DEFAULT_APIS.LANGUAGE,
     } = options;
     const logger = this.logger.child({ id, name, limit, lang });
     const params = { q: name, limit, appid };
