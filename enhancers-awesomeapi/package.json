@@ -12,11 +12,15 @@
   "author": "Marco Esciana",
   "license": "ISC",
   "dependencies": {
-    "enhancers-core": "file:../enhancers-core"
+    "enhancers-core": "file:../enhancers-core",
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.23.4"
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }

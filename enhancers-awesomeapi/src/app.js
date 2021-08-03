@@ -1,4 +1,12 @@
-const { Configurator, Logger, Validator, Server } = require('enhancers-core');
+const {
+  Configurator,
+  Logger,
+  Validator,
+  GeolocationService,
+  WeatherService,
+  BusinessesService,
+} = require('enhancers-core');
+const { Server } = require('./server/server');
 
 const { name: appName } = require('../package.json');
 
@@ -7,9 +15,18 @@ async function run() {
   const configurator = new Configurator({ appName });
   const config = configurator.getAll();
   const logger = new Logger(config.logger, { validator });
-  const server = new Server(config.server, { validator, logger });
+  const geolocationService = new GeolocationService(config.geolocation, { validator, logger });
+  const weatherService = new WeatherService(config.weather, { validator, logger });
+  const businessesService = new BusinessesService(config.businesses, { validator, logger });
+
+  const server = new Server(config.server, {
+    validator,
+    logger,
+    geolocationService,
+    weatherService,
+    businessesService,
+  });
   await server.start();
-  await server.stop();
 }
 
 run().then();
