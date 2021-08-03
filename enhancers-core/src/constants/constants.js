@@ -8,9 +8,10 @@ const DEFAULT_RESPONSES = Object.freeze({
 });
 
 const DEFAULT_APIS = Object.freeze({
-  LANGUAGE: 'en',
+  LOCALE: 'en',
   UNITS: 'metric',
   LIMIT_LOCATIONS: 1,
+  LIMIT_BUSINESSES: 20,
 });
 
 module.exports = {

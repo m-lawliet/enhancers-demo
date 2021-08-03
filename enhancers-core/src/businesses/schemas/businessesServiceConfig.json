@@ -1,0 +1,12 @@
+{
+  "title": "Weather Service Config Schema",
+  "description": "This schema is used to validate Weather Service config",
+  "type": "object",
+  "properties": {
+    "baseURL": {"type": "string", "format": "uri-reference"},
+    "apiKey": {"type": "string"},
+    "timeout": {"type": "number", "minimum": 0, "default": 5000}
+  },
+  "required": ["baseURL", "apiKey"],
+  "additionalProperties": false
+}
