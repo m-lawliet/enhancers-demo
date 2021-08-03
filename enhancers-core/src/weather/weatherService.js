@@ -25,15 +25,18 @@ class WeatherService {
     const [defaultLanguage] = DEFAULT_APIS.LOCALE.split('_');
     const { id, units = defaultUnits, lang = defaultLanguage } = options;
     const logger = this.logger.child({ id, units, lang, lat, lon });
+    const startTime = Date.now();
 
     try {
       logger.debug('Retrieving weather...');
       const params = { lat, lon, units, lang, appid };
       const { data } = await this.axios.get(url, { params });
       weather = data;
-      logger.debug('Retrieved weather');
+      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      logger.debug('Retrieved weather', { responseTime });
     } catch (error) {
-      logger.error('Cannot retrieve weather', { error });
+      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      logger.error('Cannot retrieve weather', { responseTime, error });
       throw error;
     }
     return weather;

@@ -8,7 +8,7 @@ const DEFAULT_RESPONSES = Object.freeze({
 });
 
 const DEFAULT_APIS = Object.freeze({
-  LOCALE: 'en',
+  LOCALE: 'en_US',
   UNITS: 'metric',
   LIMIT_LOCATIONS: 1,
   LIMIT_BUSINESSES: 20,

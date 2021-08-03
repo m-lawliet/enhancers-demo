@@ -41,6 +41,7 @@ class BusinessesService {
       radius,
       categories,
     });
+    const startTime = Date.now();
 
     try {
       logger.debug('Retrieving businesses...');
@@ -53,9 +54,11 @@ class BusinessesService {
       const { data } = await this.axios.get(url, { params });
       const { businesses } = data;
       results = businesses;
-      logger.debug('Retrieved businesses');
+      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      logger.debug('Retrieved businesses', { responseTime });
     } catch (error) {
-      logger.error('Cannot retrieve businesses', { error });
+      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      logger.error('Cannot retrieve businesses', { responseTime, error });
       throw error;
     }
     return results;

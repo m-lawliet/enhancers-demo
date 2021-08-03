@@ -26,6 +26,7 @@ class GeolocationService {
 
     const { id, limit = defaultLimit, lang = defaultLanguage } = options;
     const logger = this.logger.child({ id, name, limit, lang });
+    const startTime = Date.now();
 
     try {
       logger.debug('Retrieving locations...');
@@ -40,9 +41,11 @@ class GeolocationService {
           lon: result.lon,
         }
       ));
-      logger.debug('Retrieved locations');
+      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      logger.debug('Retrieved locations', { responseTime });
     } catch (error) {
-      logger.error('Cannot retrieve locations', { error });
+      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      logger.error('Cannot retrieve locations', { responseTime, error });
       throw error;
     }
     return results;

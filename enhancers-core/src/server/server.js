@@ -8,63 +8,56 @@ class Server {
     const label = 'server';
     const { address, port, prefix } = config;
     this.customMiddlewares = shared.customMiddlewares || {};
+    this.userMiddlewares = [];
     this.logger = shared.logger.child({ label });
     this.validator = shared.validator;
     this.validator.addSchema('serverConfig', configSchema);
     this.validator.ensure('serverConfig', config);
     this.middlewares = {};
-    this.prepareMiddlewares();
-    this.initialMiddlewares = [];
-    this.errorMiddlewares = [];
-    this.userMiddlewares = [];
-    this.finalMiddlewares = [];
+    this.initializeMiddlewares();
     this.address = address;
     this.port = port;
     this.prefix = prefix;
     this.app = express();
     this.server = null;
+    this.started = false;
   }
 
-  prepareMiddlewares() {
+  initializeMiddlewares() {
     Object.keys(defaultMiddlewares).forEach((group) => {
       this.middlewares[group] = { ...defaultMiddlewares[group], ...this.customMiddlewares[group] };
     });
   }
 
-  initializeMiddlewares() {
-    const { logger, middlewares } = this;
+  async addUserMiddlewares(userMiddlewares) {
+    const addedMiddlewares = Array.isArray(userMiddlewares) ? userMiddlewares : [userMiddlewares];
+    this.userMiddlewares.push(...addedMiddlewares);
+    if (this.started) await this.restart();
+  }
+
+  async start() {
+    const { address, port, prefix, middlewares } = this;
     const { logs, commons, replies } = middlewares;
-    this.initialMiddlewares.push(
-      logs.initializeLog(logger),
+    const logger = this.logger.child({ address, port, prefix });
+    logger.debug('Server starting...');
+
+    this.server = this.app.listen(port, address);
+    this.app.use(
+      logs.logInitialize(logger),
       // TODO: Make those configurable on config file
       logs.logRequestHeadersOn({ level: 'debug' }),
       logs.logRequestBodyOn({ level: 'debug' }),
       logs.logResponseBodyOn({ level: 'debug' }),
       logs.logRequest(),
-    );
-    this.errorMiddlewares.push(commons.errorHandler());
-    this.finalMiddlewares.push(replies.notFound());
-  }
-
-  addUserMiddlewares(userMiddlewares) {
-    this.userMiddlewares.push(...userMiddlewares);
-  }
-
-  async start() {
-    const { address, port, prefix } = this;
-    const logger = this.logger.child({ address, port, prefix });
-    logger.debug('Server starting...');
-    this.server = this.app.listen(port, address);
-    this.initializeMiddlewares();
-    this.app.use(
-      ...this.initialMiddlewares,
       ...this.userMiddlewares,
-      ...this.finalMiddlewares,
-      ...this.errorMiddlewares,
+      replies.notFound(),
+      commons.errorHandler(),
     );
     this.server.on('error', (error) => {
       logger.error('On server start occurred error', { error });
     });
+    this.started = true;
+
     logger.info('Server started.');
   }
 
@@ -74,8 +67,14 @@ class Server {
     if (server) {
       logger.debug('Server closing...');
       await server.close();
+      this.started = false;
       logger.info('Server closed.');
     }
+  }
+
+  async restart() {
+    await this.stop();
+    await this.start();
   }
 }
 
