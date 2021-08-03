@@ -57,7 +57,7 @@ Request query string
      - String
      - 1:5
      -
-     - City list separated by commas
+     - City list separated by semicolons
 
 
 Response body (JSON)
