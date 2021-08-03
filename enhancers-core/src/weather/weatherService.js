@@ -12,7 +12,6 @@ class WeatherService {
     this.validator.ensure(label, config);
     this.apiKey = config.apiKey;
     this.baseURL = config.baseURL;
-    this.apiURL = config.apiURL;
     this.timeout = config.timeout;
     const { baseURL, timeout } = this;
     this.axios = axios.create({ baseURL, timeout });
@@ -20,17 +19,16 @@ class WeatherService {
 
   async getWeather(lat, lon, options = {}) {
     let weather = {};
-    const { apiKey: appid, apiURL: url } = this;
-    const {
-      id,
-      units = DEFAULT_APIS.UNITS,
-      lang = DEFAULT_APIS.LANGUAGE,
-    } = options;
+    const url = '/onecall';
+    const { apiKey: appid } = this;
+    const defaultUnits = DEFAULT_APIS.UNITS;
+    const [defaultLanguage] = DEFAULT_APIS.LOCALE.split('_');
+    const { id, units = defaultUnits, lang = defaultLanguage } = options;
     const logger = this.logger.child({ id, units, lang, lat, lon });
-    const params = { lat, lon, units, lang, appid };
 
     try {
       logger.debug('Retrieving weather...');
+      const params = { lat, lon, units, lang, appid };
       const { data } = await this.axios.get(url, { params });
       weather = data;
       logger.debug('Retrieved weather');
