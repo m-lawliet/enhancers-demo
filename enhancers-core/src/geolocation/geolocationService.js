@@ -34,7 +34,7 @@ class GeolocationService {
       const { data } = await this.axios.get(url, { params });
       results = data.map((result) => (
         {
-          name: result.local_names[lang] || result.name,
+          name: (result.local_names && result.local_names[lang]) || result.name,
           country: result.country,
           state: result.state,
           lat: result.lat,
