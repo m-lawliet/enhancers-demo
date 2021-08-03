@@ -46,7 +46,6 @@ class Server {
     this.app.use(
       helmet(),
       logs.logInitialize(logger),
-      // TODO: Make those configurable on config file
       logs.logRequestHeadersOn({ level: 'debug' }),
       logs.logRequestBodyOn({ level: 'debug' }),
       logs.logResponseBodyOn({ level: 'debug' }),
@@ -63,7 +62,6 @@ class Server {
     logger.info('Server started.');
   }
 
-  // TODO: Check if stop works correctly
   async stop() {
     const { server, address, port, prefix } = this;
     const logger = this.logger.child({ address, port, prefix });

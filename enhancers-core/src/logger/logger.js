@@ -72,7 +72,8 @@ class Logger {
             .entries(meta)
             .filter(([, value]) => value !== undefined)
             .map(([key, value]) => `${key}=${inspect(value)}`).join('\n ');
-          // TODO: Make constant file
+
+          // NOTE: Padding number differs when colorize is active or not, adjusting value accordingly
           const padding = level.length <= 7 ? 7 : 17;
           const levelString = level.padEnd(padding, ' ');
           return `${timestamp} - ${levelString}: [${label}] ${idString} | ${message} \n ${metaString}`;
