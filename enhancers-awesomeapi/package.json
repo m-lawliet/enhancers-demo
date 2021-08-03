@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "enhancers-core": "file:../enhancers-core",
-    "express": "^4.17.1"
+    "express": "^5.0.0-alpha.8"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
