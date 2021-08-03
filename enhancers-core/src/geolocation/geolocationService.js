@@ -12,7 +12,6 @@ class GeolocationService {
     this.validator.ensure(label, config);
     this.apiKey = config.apiKey;
     this.baseURL = config.baseURL;
-    this.apiURL = config.apiURL;
     this.timeout = config.timeout;
     const { baseURL, timeout } = this;
     this.axios = axios.create({ baseURL, timeout });
@@ -20,17 +19,17 @@ class GeolocationService {
 
   async getLocationsByName(name, options = {}) {
     let results = [];
-    const { apiKey: appid, apiURL: url } = this;
-    const {
-      id,
-      limit = DEFAULT_APIS.LIMIT_LOCATIONS,
-      lang = DEFAULT_APIS.LANGUAGE,
-    } = options;
+    const url = '/direct';
+    const { apiKey: appid } = this;
+    const defaultLimit = DEFAULT_APIS.LIMIT_LOCATIONS;
+    const [defaultLanguage] = DEFAULT_APIS.LOCALE.split('_');
+
+    const { id, limit = defaultLimit, lang = defaultLanguage } = options;
     const logger = this.logger.child({ id, name, limit, lang });
-    const params = { q: name, limit, appid };
 
     try {
       logger.debug('Retrieving locations...');
+      const params = { q: name, limit, appid };
       const { data } = await this.axios.get(url, { params });
       results = data.map((result) => (
         {

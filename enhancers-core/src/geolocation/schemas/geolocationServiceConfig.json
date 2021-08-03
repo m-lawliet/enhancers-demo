@@ -4,10 +4,9 @@
   "type": "object",
   "properties": {
     "baseURL": {"type": "string", "format": "uri-reference"},
-    "apiURL": {"type": "string", "format": "uri-reference"},
     "apiKey": {"type": "string"},
     "timeout": {"type": "number", "minimum": 0, "default": 5000}
   },
-  "required": ["baseURL", "apiURL", "apiKey"],
+  "required": ["baseURL", "apiKey"],
   "additionalProperties": false
 }
