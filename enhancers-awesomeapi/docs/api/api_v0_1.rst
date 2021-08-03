@@ -111,7 +111,7 @@ Request
 
 The client performs the following request:
 
-GET https://host/awesomeapi/0.1/cities?name=New%20York,London,Paris,Rome,Madrid
+GET https://host/awesomeapi/0.1/cities?name=New%20York;London;Paris;Rome;Madrid
 
 
 Success Response
