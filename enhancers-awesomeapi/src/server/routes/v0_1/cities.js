@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { middlewares } = require('enhancers-core');
-const { cities } = require('../middlewares');
+const { cities } = require('../../middlewares/commons');
 
 const { replies } = middlewares;
 

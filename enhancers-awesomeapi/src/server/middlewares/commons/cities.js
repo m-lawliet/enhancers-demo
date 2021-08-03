@@ -3,7 +3,7 @@
 function parseCities() {
   return function parseCitiesMiddleware(req, res, next) {
     const { name } = req.query;
-    res.locals.cityList = name.split(';');
+    res.locals.cityList = name.split(';').filter((city) => city);
     next();
   };
 }
@@ -18,6 +18,7 @@ function getGeolocation(geolocationService) {
   };
 }
 
+// TODO: You should run in parallel getWeather and searchBusinesses
 function getWeather(weatherService) {
   return async function getWeatherMiddleware(req, res, next) {
     const { id, geoList } = res.locals;

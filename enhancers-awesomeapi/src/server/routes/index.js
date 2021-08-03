@@ -1,3 +1,3 @@
-const { CitiesRouter } = require('./cities');
+const { V01Router } = require('./v0_1');
 
-module.exports = { CitiesRouter };
+module.exports = { V01Router };
