@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const defaultMiddlewares = require('./middlewares');
 
 const configSchema = require('./schemas/baseServerConfig.json');
@@ -43,6 +44,7 @@ class Server {
 
     this.server = this.app.listen(port, address);
     this.app.use(
+      helmet(),
       logs.logInitialize(logger),
       // TODO: Make those configurable on config file
       logs.logRequestHeadersOn({ level: 'debug' }),
@@ -61,6 +63,7 @@ class Server {
     logger.info('Server started.');
   }
 
+  // TODO: Check if stop works correctly
   async stop() {
     const { server, address, port, prefix } = this;
     const logger = this.logger.child({ address, port, prefix });

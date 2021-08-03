@@ -1,6 +1,6 @@
-const logs = require('./logMiddlewares');
-const commons = require('./commonMiddleware');
-const replies = require('./replyMiddlewares');
+const logs = require('./logs');
+const commons = require('./commons');
+const replies = require('./replies');
 
 module.exports = {
   logs,
