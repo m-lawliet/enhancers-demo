@@ -1,0 +1,16 @@
+{
+  "title": "Weather Service Config Schema",
+  "description": "This schema is used to validate Weather Service config",
+  "type": "object",
+  "properties": {
+    "baseURL": {"type": "string", "format": "uri-reference"},
+    "apiKey": {"type": "string"},
+    "timeout": {"type": "number", "minimum": 0, "default": 10000},
+    "retryTimes": {"type": "number", "minimum": 1, "default": 3},
+    "maxCacheAge": {"type": "number", "default": 600000},
+    "maxCacheItems": {"type": "number", "default": 10000},
+    "thresholdThrottle": {"type": "number", "default": 1000}
+  },
+  "required": ["baseURL", "apiKey"],
+  "additionalProperties": false
+}

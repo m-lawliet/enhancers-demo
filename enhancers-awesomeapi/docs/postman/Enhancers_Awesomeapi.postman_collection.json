@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "ee508150-cb90-4477-bdb7-6531b354d057",
+		"name": "Enhancers Awesomeapi",
+		"description": "Enhancers Collection for Awesomeapi demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}{{port}}/awesomeapi/{{apiVersion}}/cities?name={{name}}&locale={{locale}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}{{port}}"
+					],
+					"path": [
+						"awesomeapi",
+						"{{apiVersion}}",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"description": "Mandatory"
+						},
+						{
+							"key": "locale",
+							"value": "{{locale}}",
+							"description": "Optional"
+						},
+						{
+							"key": "units",
+							"value": "{{units}}",
+							"description": "Optional",
+							"disabled": true
+						},
+						{
+							"key": "businessLimit",
+							"value": "{{businessLimit}}",
+							"description": "Optional",
+							"disabled": true
+						},
+						{
+							"key": "businessRadius",
+							"value": "{{businessRadius}}",
+							"description": "Optional",
+							"disabled": true
+						},
+						{
+							"key": "businessTerm",
+							"value": "{{businessTerm}}",
+							"description": "Optional",
+							"disabled": true
+						},
+						{
+							"key": "businessCategories",
+							"value": "{{businessCategories}}",
+							"description": "Optional",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Get cities data"
+			},
+			"response": []
+		}
+	]
+}

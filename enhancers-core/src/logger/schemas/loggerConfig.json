@@ -1,0 +1,39 @@
+{
+  "title": "Logger Config Schema",
+  "description": "This schema is used to validate Logger configuration",
+  "type": "object",
+  "properties": {
+    "timezone": {
+      "type": "string"
+    },
+    "fileTransport": {
+      "type": "object",
+      "properties": {
+        "disabled": {"type": "boolean"},
+        "level": {"type": "string"},
+        "filename": {"type": "string", "format": "file-path"},
+        "handleExceptions": {"type": "boolean", "default": true},
+        "handleRejections": {"type": "boolean", "default": true},
+        "maxsize": {"type": "number", "exclusiveMinimum": 0},
+        "maxFiles": {"type": "number", "exclusiveMinimum": 0},
+        "tailable": {"type": "boolean", "default": true},
+        "timezone": {"type": "boolean", "default": true},
+        "zippedArchive": {"type": "boolean"}
+      },
+      "required": ["level", "filename", "maxsize", "maxFiles"],
+      "additionalProperties": false
+    },
+    "consoleTransport": {
+      "type": "object",
+      "properties": {
+        "disabled": {"type": "boolean"},
+        "level": {"type": "string", "default": "debug"},
+        "handleExceptions": {"type": "boolean", "default": true},
+        "handleRejections": {"type": "boolean", "default": true},
+        "timezone": {"type": "boolean", "default": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

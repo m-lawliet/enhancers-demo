@@ -1,0 +1,24 @@
+{
+  "title": "Base Server Config Schema",
+  "description": "This schema is used to validate Base Server config",
+  "type": "object",
+  "properties": {
+    "port": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 65536,
+      "default": 3000
+    },
+    "address": {
+      "type": "string",
+      "anyOf": [
+        { "format": "ipv4" },
+        { "format": "ipv6" },
+        { "format": "hostname" }
+      ],
+      "default": "127.0.0.1"
+    },
+    "prefix": { "type": "string" }
+  },
+  "additionalProperties": true
+}

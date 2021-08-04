@@ -1,0 +1,46 @@
+{
+  "server": {
+    "address": "localhost",
+    "port": 3000
+  },
+  "geolocation": {
+    "baseURL": "http://api.openweathermap.org/geo/1.0/",
+    "apiKey": "<Open Weather API key>",
+    "timeout": 10000,
+    "retryTimes": 3,
+    "maxCacheAge": 600000,
+    "maxCacheItems": 10000,
+    "thresholdThrottle": 1000
+  },
+  "weather": {
+    "baseURL": "https://api.openweathermap.org/data/2.5/",
+    "apiKey": "<Open Weather API key>",
+    "timeout": 10000,
+    "retryTimes": 3,
+    "maxCacheAge": 600000,
+    "maxCacheItems": 10000,
+    "thresholdThrottle": 1000
+  },
+  "businesses": {
+    "baseURL": "https://api.yelp.com/v3",
+    "apiKey": "<Yelp Fusion API key>",
+    "timeout": 10000,
+    "retryTimes": 3,
+    "maxCacheAge": 600000,
+    "maxCacheItems": 10000,
+    "thresholdThrottle": 1000
+  },
+  "logger": {
+    "timezone": "Europe/Rome",
+    "fileTransport": {
+      "level": "info",
+      "filename": "./logs/server.log",
+      "maxFiles": 5,
+      "maxsize": 5242880,
+      "zippedArchive": true
+    },
+    "consoleTransport": {
+      "level": "debug"
+    }
+  }
+}
