@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const configSchema = require('./schemas/weatherServiceConfig.json');
-const { DEFAULT_APIS } = require('../constants/constants');
+const { WeatherUnavailableError } = require('./errors');
 
 class WeatherService {
   constructor(config, shared) {
@@ -27,15 +27,19 @@ class WeatherService {
 
     try {
       logger.debug('Retrieving weather...');
+
+      if (lat === undefined || lon === undefined) throw new WeatherUnavailableError();
       const params = { lat, lon, units, lang, appid };
       const { data } = await this.axios.get(url, { params });
       weather = data;
+
       const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
       logger.debug('Retrieved weather', { responseTime });
     } catch (error) {
       const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
       logger.error('Cannot retrieve weather', { responseTime, error });
-      throw error;
+
+      weather = error.errorCode ? error : new WeatherUnavailableError();
     }
     return weather;
   }

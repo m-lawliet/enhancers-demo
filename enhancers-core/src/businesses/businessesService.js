@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const configSchema = require('./schemas/businessesServiceConfig.json');
+const { BusinessesUnavailableError } = require('./errors');
 
 class BusinessesService {
   constructor(config, shared) {
@@ -44,6 +45,8 @@ class BusinessesService {
 
     try {
       logger.debug('Retrieving businesses...');
+
+      if (lat === undefined || lon === undefined) throw new BusinessesUnavailableError();
       const params = {
         limit,
         locale,
@@ -63,7 +66,7 @@ class BusinessesService {
     } catch (error) {
       const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
       logger.error('Cannot retrieve businesses', { responseTime, error });
-      throw error;
+      results = error.errorCode ? error : new BusinessesUnavailableError();
     }
     return results;
   }

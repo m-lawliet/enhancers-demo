@@ -8,7 +8,7 @@ const { BusinessesService } = require('./businesses/businessesService');
 const tools = require('./tools/tools');
 const constants = require('./constants/constants');
 const middlewares = require('./server/middlewares');
-const errors = require('./server/errors/errors');
+const serverErrors = require('./server/errors');
 
 module.exports = {
   Configurator,
@@ -21,5 +21,5 @@ module.exports = {
   tools,
   constants,
   middlewares,
-  errors,
+  serverErrors,
 };
