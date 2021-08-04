@@ -75,10 +75,16 @@ The following table describes supported query params:
    * - locale
      - String
      - 0:1
-     - en_US
+     - it_IT
      - Localization string. Will be passed as is to Yelp APIs
        and stripped to first token (before "_") before being
        passed to Open Weather APIs.
+   * - units
+     - String
+     - 0:1
+     - metric
+     - Measurement unit system used on Weather results.
+       Allowed values are: "standard", "metric", "imperial".
    * - businessLimit
      - Number >=1
      - 0:1
