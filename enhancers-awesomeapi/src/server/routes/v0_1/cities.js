@@ -27,8 +27,7 @@ class CitiesRouter {
       cities.validateQuery(validator),
       cities.parseCities(),
       cities.getGeolocation(geolocationService),
-      cities.getWeather(weatherService),
-      cities.searchBusinesses(businessesService),
+      cities.getWeatherAndBusinesses({ weatherService, businessesService }),
       cities.prepareResponse(),
       replies.ok(),
     ];

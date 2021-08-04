@@ -34,7 +34,6 @@ function getGeolocation(geolocationService) {
   };
 }
 
-// TODO: You should run in parallel getWeather and searchBusinesses
 function getWeather(weatherService) {
   return async function getWeatherMiddleware(req, res, next) {
     const { id, geoList } = res.locals;
@@ -68,6 +67,47 @@ function searchBusinesses(businessesService) {
   };
 }
 
+/*
+ * NOTE: for faster API response, I run in parallel weather and businesses data retrieval
+ * since they are independent from each other. Express does not provide a cleaner way
+ * to combine asynchronous middlewares together. Hence, getWeather and searchBusinesses
+ * will probably never used alone.
+ */
+function getWeatherAndBusinesses({ weatherService, businessesService }) {
+  return async function getWeatherAndBusinessesMiddleware(req, res, next) {
+    const { id, geoList } = res.locals;
+    const {
+      locale,
+      units,
+      businessLimit: limit,
+      businessOffset: offset,
+      businessRadius: radius,
+      businessTerm: term,
+      businessCategories: categories,
+    } = req.query;
+
+    const lang = localeToLang(locale);
+    const weatherOptions = { id, lang, units };
+    const weatherPromises = geoList.map(
+      ({ lat, lon }) => weatherService.getWeather(lat, lon, weatherOptions),
+    );
+
+    const businessesOptions = { id, locale, limit, offset, radius, term, categories };
+    const businessesPromises = geoList.map(
+      ({ lat, lon }) => businessesService.searchBusinesses(lat, lon, businessesOptions),
+    );
+
+    const [weatherList, businessesList] = await Promise.all([
+      Promise.all(weatherPromises),
+      Promise.all(businessesPromises),
+    ]);
+
+    res.locals.weatherList = weatherList;
+    res.locals.businessesList = businessesList;
+    next();
+  };
+}
+
 function prepareResponse() {
   return function prepareResponseMiddleware(req, res, next) {
     const { id, geoList, weatherList, businessesList, cityList } = res.locals;
@@ -93,5 +133,6 @@ module.exports = {
   getGeolocation,
   getWeather,
   searchBusinesses,
+  getWeatherAndBusinesses,
   prepareResponse,
 };

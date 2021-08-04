@@ -3,6 +3,18 @@
     "address": "localhost",
     "port": 3000
   },
+  "geolocation": {
+    "baseURL": "http://api.openweathermap.org/geo/1.0/",
+    "apiKey": "<Open Weather API key>"
+  },
+  "weather": {
+    "baseURL": "https://api.openweathermap.org/data/2.5/",
+    "apiKey": "<Open Weather API key>"
+  },
+  "businesses": {
+    "baseURL": "https://api.yelp.com/v3",
+    "apiKey": "<Yelp Fusion API key>"
+  },
   "logger": {
     "timezone": "Europe/Rome",
     "fileTransport": {
@@ -13,7 +25,7 @@
       "zippedArchive": true
     },
     "consoleTransport": {
-      "level": "info"
+      "level": "debug"
     }
   }
 }
