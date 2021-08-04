@@ -1,11 +1,12 @@
 const {
   Configurator,
   Logger,
-  Validator,
   GeolocationService,
   WeatherService,
   BusinessesService,
 } = require('enhancers-core');
+
+const { Validator } = require('./validator/validator');
 const { Server } = require('./server/server');
 
 const { name: appName } = require('../package.json');

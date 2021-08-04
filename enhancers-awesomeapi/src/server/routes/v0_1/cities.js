@@ -6,6 +6,7 @@ const { replies } = middlewares;
 
 class CitiesRouter {
   constructor(shared = {}) {
+    this.validator = shared.validator;
     this.geolocationService = shared.geolocationService;
     this.weatherService = shared.weatherService;
     this.businessesService = shared.businessesService;
@@ -15,14 +16,20 @@ class CitiesRouter {
   }
 
   prepareRoutes() {
-    const { geolocationService, weatherService, businessesService } = this;
+    const {
+      validator,
+      geolocationService,
+      weatherService,
+      businessesService,
+    } = this;
+
     const getCitiesMiddlewares = [
+      cities.validateQuery(validator),
       cities.parseCities(),
       cities.getGeolocation(geolocationService),
       cities.getWeather(weatherService),
       cities.searchBusinesses(businessesService),
       cities.prepareResponse(),
-      // TODO: If previous async middlewares crashes, response is not sent. Fix this
       replies.ok(),
     ];
     this.router.get('/cities', ...getCitiesMiddlewares);

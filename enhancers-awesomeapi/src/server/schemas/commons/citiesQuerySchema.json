@@ -1,0 +1,16 @@
+{
+  "title": "Cities Query options Schema",
+  "description": "This schema is used to validate cities query options",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "format": "city-list" },
+    "locale": { "type": "string", "format": "locale", "default": "en_US" },
+    "businessLimit": { "type": "number", "minimum": 1, "default": 10 },
+    "businessOffset": { "type": "number", "minimum": 0, "default": 0 },
+    "businessRadius": { "type": "number", "minimum": 1 },
+    "businessTerm": { "type": "string" },
+    "businessCategories": { "type": "string" }
+  },
+  "required": ["name"],
+  "additionalProperties": true
+}
