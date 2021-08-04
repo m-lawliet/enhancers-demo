@@ -1,4 +1,4 @@
-const { tools: { localeToLang }, errors: { BadRequestError } } = require('enhancers-core');
+const { tools: { localeToLang }, serverErrors: { BadRequestError } } = require('enhancers-core');
 const citiesQuerySchema = require('../../schemas/commons/citiesQuerySchema.json');
 
 function validateQuery(validator) {
@@ -40,7 +40,6 @@ function getWeather(weatherService) {
     const { id, geoList } = res.locals;
     const { locale, units } = req.query;
     const lang = localeToLang(locale);
-    // TODO: Avoid crashing all if a single request fails
     const promises = geoList.map(
       ({ lat, lon }) => weatherService.getWeather(lat, lon, { id, lang, units }),
     );
@@ -60,7 +59,6 @@ function searchBusinesses(businessesService) {
       businessTerm: term,
       businessCategories: categories,
     } = req.query;
-    // TODO: Avoid crashing all if a single request fails
     const options = { id, locale, limit, offset, radius, term, categories };
     const promises = geoList.map(
       ({ lat, lon }) => businessesService.searchBusinesses(lat, lon, options),

@@ -255,4 +255,45 @@ and the following response JSON body:
 Error Response
 """"""""""""""
 
-See section :ref:`_ref_api_error_handling`
+If a request cannot be fulfilled at all, a generic response is sent as described in
+:ref:`_ref_api_error_handling`.
+
+In some circumstances data can be partially sent, for instance, a city was not found but
+others were, or weather data for a single city is unavailable.
+Similarly to generic response, `errorCode` and `errorMessage` will be set in place of missing data.
+
+For example:
+
+.. code-block:: json
+
+    {
+      "id": "489e13d0-f520-11eb-9d1a-0742eab54429",
+      "cities": [
+        {
+          "name": "ThisCityDoesNotExist",
+          "geo": {
+            "errorCode": "200404",
+            "errorMessage": "Location not found"
+          },
+          "weather": {
+            "errorCode": "300404",
+            "errorMessage": "Weather unavailable"
+          },
+          "businesses": {
+            "errorCode": "400404",
+            "errorMessage": "Business unavailable"
+          }
+        },
+        {
+          "name": "Roma,IT",
+          "geo": {
+            "name": "Rome",
+            "country": "IT",
+            "lat": 41.8947,
+            "lon": 12.4839
+          },
+          "weather": { ... },
+          "businesses": { ... }
+        }
+      ]
+    }
