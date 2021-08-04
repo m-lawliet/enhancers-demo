@@ -4,7 +4,8 @@
   "type": "object",
   "properties": {
     "name": { "type": "string", "format": "city-list" },
-    "locale": { "type": "string", "format": "locale", "default": "en_US" },
+    "locale": { "type": "string", "format": "locale", "default": "it_IT" },
+    "units": { "type": "string", "format": "units", "default": "metric" },
     "businessLimit": { "type": "number", "minimum": 1, "default": 10 },
     "businessOffset": { "type": "number", "minimum": 0, "default": 0 },
     "businessRadius": { "type": "number", "minimum": 1 },

@@ -24,10 +24,10 @@ function parseCities() {
 function getGeolocation(geolocationService) {
   return async function getGeoMiddleware(req, res, next) {
     const { id, cityList } = res.locals;
-    const { locale } = req.query;
+    const { locale, units } = req.query;
     const lang = localeToLang(locale);
     const promises = cityList.map(
-      (name) => geolocationService.getLocationByName(name, { id, lang })
+      (name) => geolocationService.getLocationByName(name, { id, lang, units }),
     );
     res.locals.geoList = await Promise.all(promises);
     next();
@@ -38,11 +38,11 @@ function getGeolocation(geolocationService) {
 function getWeather(weatherService) {
   return async function getWeatherMiddleware(req, res, next) {
     const { id, geoList } = res.locals;
-    const { locale } = req.query;
+    const { locale, units } = req.query;
     const lang = localeToLang(locale);
     // TODO: Avoid crashing all if a single request fails
     const promises = geoList.map(
-      ({ lat, lon }) => weatherService.getWeather(lat, lon, { id, lang })
+      ({ lat, lon }) => weatherService.getWeather(lat, lon, { id, lang, units }),
     );
     res.locals.weatherList = await Promise.all(promises);
     next();
@@ -54,16 +54,16 @@ function searchBusinesses(businessesService) {
     const { id, geoList } = res.locals;
     const {
       locale,
-      businessesLimit: limit,
-      businessesOffset: offset,
-      businessesRadius: radius,
-      businessesTerm: term,
-      businessesCategories: categories,
+      businessLimit: limit,
+      businessOffset: offset,
+      businessRadius: radius,
+      businessTerm: term,
+      businessCategories: categories,
     } = req.query;
     // TODO: Avoid crashing all if a single request fails
     const options = { id, locale, limit, offset, radius, term, categories };
     const promises = geoList.map(
-      ({ lat, lon }) => businessesService.searchBusinesses(lat, lon, options)
+      ({ lat, lon }) => businessesService.searchBusinesses(lat, lon, options),
     );
     res.locals.businessesList = await Promise.all(promises);
     next();

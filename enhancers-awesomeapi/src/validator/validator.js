@@ -1,5 +1,6 @@
 const { Validator: BaseValidator } = require('enhancers-core');
 
+const unitsRegex = /standard|metric|imperial/;
 const localeRegex = /^[a-z]{2}_[A-Z]{2}$/;
 const cityListValidation = {
   type: 'string',
@@ -22,6 +23,7 @@ const cityListValidation = {
 class Validator {
   constructor() {
     this.validator = new BaseValidator();
+    this.validator.addFormat('units', unitsRegex);
     this.validator.addFormat('locale', localeRegex);
     this.validator.addFormat('city-list', cityListValidation);
     return this.validator;
