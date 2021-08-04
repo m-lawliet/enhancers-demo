@@ -106,3 +106,4 @@ dist
 # Custom rules
 .idea/
 report/
+enhancers-awesomeapi/etc/config.json

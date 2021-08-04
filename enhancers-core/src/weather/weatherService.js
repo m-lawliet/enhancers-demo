@@ -1,7 +1,8 @@
 const axios = require('axios');
 
-const configSchema = require('./schemas/weatherServiceConfig.json');
+const { startTimer } = require('../tools/tools');
 const { WeatherUnavailableError } = require('./errors');
+const configSchema = require('./schemas/weatherServiceConfig.json');
 
 class WeatherService {
   constructor(config, shared) {
@@ -23,7 +24,7 @@ class WeatherService {
     const { apiKey: appid } = this;
     const { id, units, lang } = options;
     const logger = this.logger.child({ id, units, lang, lat, lon });
-    const startTime = Date.now();
+    const getElapsedTime = startTimer();
 
     try {
       logger.debug('Retrieving weather...');
@@ -33,10 +34,10 @@ class WeatherService {
       const { data } = await this.axios.get(url, { params });
       weather = data;
 
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       logger.debug('Retrieved weather', { responseTime });
     } catch (error) {
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       logger.error('Cannot retrieve weather', { responseTime, error });
 
       weather = error.errorCode ? error : new WeatherUnavailableError();

@@ -1,7 +1,8 @@
 const axios = require('axios');
 
-const configSchema = require('./schemas/geolocationServiceConfig.json');
+const { startTimer } = require('../tools/tools');
 const { LocationNotFoundError, LocationGenericError } = require('./errors');
+const configSchema = require('./schemas/geolocationServiceConfig.json');
 
 class GeolocationService {
   constructor(config, shared) {
@@ -23,7 +24,7 @@ class GeolocationService {
     const { apiKey: appid } = this;
     const { id, limit, lang } = options;
     const logger = this.logger.child({ id, name, limit, lang });
-    const startTime = Date.now();
+    const getElapsedTime = startTimer();
 
     try {
       logger.debug('Retrieving locations...');
@@ -42,10 +43,10 @@ class GeolocationService {
         }
       ));
 
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       logger.debug('Retrieved locations', { responseTime });
     } catch (error) {
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       logger.error('Cannot retrieve locations', { responseTime, error });
 
       // NOTE: Do not throw error here, I never want this function to throw

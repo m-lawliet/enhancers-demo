@@ -1,4 +1,5 @@
 const { v1: uuidV1 } = require('uuid');
+const { startTimer } = require('../../tools/tools');
 
 function logInitialize(logger) {
   return function prepareLogMetadataMiddleware(req, res, next) {
@@ -56,14 +57,14 @@ function logRequest() {
     const { url, method } = req;
     res.locals.logger = res.locals.logger.child({ url, method });
     res.locals.logger.debug('Received request');
-    const startTime = Date.now();
+    const getElapsedTime = startTimer();
 
     // NOTE: Log completed request message only if is not an error
     // (log will be performed by errorHandler in such case)
     res.on('close', () => {
       const { statusCode: status } = res;
       const category = Math.floor(status / 100);
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       res.locals.logger = res.locals.logger.child({ status, responseTime });
       if (category === 2) res.locals.logger.http('Completed request');
       else res.locals.logger.error('Failed request');
@@ -71,53 +72,6 @@ function logRequest() {
     next();
   };
 }
-
-// function logRequest() {
-//   return function logRequestMiddleware(req, res, next) {
-//     const { url, method } = req;
-//     res.locals.logger = res.locals.logger.child({ url, method });
-//     res.locals.logger.debug('Received request');
-//     const startTime = Date.now();
-//
-//     next();
-//
-//     // NOTE: Log completed request message only if is not an error
-//     // (log will be performed by errorHandler in such case)
-//     const { statusCode: status } = res;
-//     const category = Math.floor(status / 100);
-//     const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
-//     res.locals.logger = res.locals.logger.child({ status, responseTime });
-//     if (category === 2) res.locals.logger.http('Completed request');
-//     else res.locals.logger.error('Failed request');
-//   };
-// }
-
-// function logIncomingRequest() {
-//   return function logIncomingRequestMiddleware(req, res, next) {
-//     const { url, method } = req;
-//     console.log(0);
-//     res.locals.logger = res.locals.logger.child();
-//     res.locals.logger.debug('Received request', { url, method });
-//     res.locals.startTime = Date.now();
-//     next();
-//   };
-// }
-//
-// function logCompletedRequest() {
-//   return function logCompletedRequestMiddleware(req, res, next) {
-//     // NOTE: Log completed request message only if is not an error
-//     // (log will be performed by errorHandler in such case)
-//     console.log(7);
-//     const { startTime } = res.locals;
-//     const { statusCode: status } = res;
-//     const category = Math.floor(status / 100);
-//     const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
-//     res.locals.logger = res.locals.logger.child({ status, responseTime });
-//     if (category === 2) res.locals.logger.http('Completed request');
-//     else res.locals.logger.error('Failed request');
-//     next();
-//   };
-// }
 
 module.exports = {
   logInitialize,

@@ -1,7 +1,8 @@
 const axios = require('axios');
 
-const configSchema = require('./schemas/businessesServiceConfig.json');
+const { startTimer } = require('../tools/tools');
 const { BusinessesUnavailableError } = require('./errors');
+const configSchema = require('./schemas/businessesServiceConfig.json');
 
 class BusinessesService {
   constructor(config, shared) {
@@ -41,7 +42,7 @@ class BusinessesService {
       radius,
       categories,
     });
-    const startTime = Date.now();
+    const getElapsedTime = startTimer();
 
     try {
       logger.debug('Retrieving businesses...');
@@ -61,10 +62,10 @@ class BusinessesService {
       const { data } = await this.axios.get(url, { params });
       const { businesses } = data;
       results = businesses;
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       logger.debug('Retrieved businesses', { responseTime });
     } catch (error) {
-      const responseTime = `${Math.ceil(Date.now() - startTime)}ms`;
+      const responseTime = getElapsedTime();
       logger.error('Cannot retrieve businesses', { responseTime, error });
       results = error.errorCode ? error : new BusinessesUnavailableError();
     }
