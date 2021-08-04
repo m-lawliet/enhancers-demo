@@ -7,10 +7,10 @@ serving results to end users.
 
 ## Requirements
 
-- It should be implemented in node.js, express.js
-- It should expose an endpoint to users for retrieving data about up to 5 cities.
-- It should gather weather data for provided cities from [Open Weather Map APIs](https://openweathermap.org/api)
-- It should gather businesses data related to provided cities from [Yelp Fusion APIs](https://www.yelp.com/developers/documentation/v3/business_search)
+  - It should be implemented in node.js, express.js
+  - It should expose an endpoint to users for retrieving data about up to 5 cities.
+  - It should gather weather data for provided cities from [Open Weather Map APIs](https://openweathermap.org/api)
+  - It should gather businesses data related to provided cities from [Yelp Fusion APIs](https://www.yelp.com/developers/documentation/v3/business_search)
 
 ## Usage
 
@@ -19,6 +19,7 @@ TODO: Don't forget to set NODE_ENV to “production”
 
 ## Rationale and Other Notes
 
+### Code structure
 By conscious choice, this project does not follow classic trivial structure of most Express applications and
 is somewhat unconventional.
 
@@ -30,29 +31,36 @@ or simplified core modules instead of being used directly, and in general, compo
 inheritance has been preferred.
 This choice can introduce some initial developing time overhead but has the following benefits:
 
-- it's easier to reuse common functionalities into different applications 
-- better consistency in behaviour between similar applications
-- better overall stability, changes to common functionalities should not be ported to multiple code bases.
-- increased testability, it's not strictly required to using advanced mocking features (such as jest module mock)
-- swapping an external library does not require full code review/refactor
+  - it's easier to reuse common functionalities into different applications 
+  - better consistency in behaviour between similar applications
+  - better overall stability, changes to common functionalities should not be ported to multiple code bases.
+  - increased testability, it's not strictly required to using advanced mocking features (such as jest module mock)
+  - swapping an external library does not require full code review/refactor
 
 The drawbacks are the following, but can be limited as described shortly after:
 
-- more limited or clunky interfaces, less customization
+  - more limited or clunky interfaces
+  - less customization
 
 Having a simplified interface can seem like a limitation, but can be easily overcome by replacing the implementation
 where needed. 
 This project adopts the dependency injection paradigma, so if a module is too limited for some specific need
 it's straightforward to replace it with something better (as long as it has a compatible interface).
-Instances should be created on the root level of the application and passed to other components with a top-down 
-approach.
-In some cases, a methodology for extending or overriding default behaviour has been directly implemented to
-allow some customization without providing a whole new dependency.
+
+Dependency instances should be created on the root level of the application and passed to other components with a 
+top-down approach. In some cases, a methodology for extending or overriding default behaviour has been directly 
+implemented to allow some customization without providing a whole new dependency.
 
 This code base has been divided into two parts, that can be considered as separate Node.js modules:
 
-- `enhancers-core`: contains reusable components
-- `enhancers-awesomeapi`: application implementation
+  - `enhancers-core`: contains reusable components
+  - `enhancers-awesomeapi`: application implementation
+
+
+### API versions supported
+
+This application support multiple APIs version exposed by a single service, but only `version 0.1` has been
+implemented so far.
 
 
 ### Why using Express 5 in alpha release
@@ -78,10 +86,14 @@ Using a task runner will not be necessary on serverless deploys.
 
 ## Features not implemented
 
-The following has been planned but eventually will not be implemented or completed due to reaching 
-deadline (they can be implemented in future if required):
+The following features have been planned but eventually will not be implemented or completed due 
+to reaching deadline (they can be implemented in future if required):
 
-- unit tests
-- functional tests
-- metrics collection service (in [Prometheus](https://prometheus.io/) format)
+  - authentication
+  - unit tests
+  - functional tests
+  - usage docs for modules (especially on core modules)
+  - metrics collection service (in [Prometheus](https://prometheus.io/) format)
+  - external APIs caching (for limiting unnecessary calls, most data is static, even weather forecasts has
+    minimum resolution of 10 minutes)
 
