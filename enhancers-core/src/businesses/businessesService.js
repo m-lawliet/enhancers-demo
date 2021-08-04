@@ -1,7 +1,6 @@
 const axios = require('axios');
 
 const configSchema = require('./schemas/businessesServiceConfig.json');
-const { DEFAULT_APIS } = require('../constants/constants');
 
 class BusinessesService {
   constructor(config, shared) {
@@ -23,9 +22,9 @@ class BusinessesService {
     const url = '/businesses/search';
     let results = {};
     const {
-      locale = DEFAULT_APIS.LOCALE,
-      limit = DEFAULT_APIS.LIMIT_BUSINESSES,
-      offset = 0,
+      locale,
+      limit,
+      offset,
       id,
       radius,
       term,
@@ -45,7 +44,12 @@ class BusinessesService {
 
     try {
       logger.debug('Retrieving businesses...');
-      const params = { latitude: lat, longitude: lon, limit, locale };
+      const params = {
+        limit,
+        locale,
+        latitude: lat,
+        longitude: lon,
+      };
       if (offset) params.offset = offset;
       if (term) params.term = term;
       if (radius) params.radius = radius;

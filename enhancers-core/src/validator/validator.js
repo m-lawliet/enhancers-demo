@@ -8,15 +8,11 @@ const defaultOptions = {
   coerceTypes: true,
 };
 
-/*
- * Simple wrapper around ajv that provides minor customizations and simplified API
- */
 class Validator {
   constructor(options) {
     this.options = { ...defaultOptions, ...options };
     this.ajv = new Ajv(this.options);
     addFormats(this.ajv);
-    // this.addFormat('city-list', city_list_regex);
   }
 
   addSchema(name, schema) {
@@ -29,6 +25,7 @@ class Validator {
 
   test(name, obj) {
     let error;
+    let errorMessage;
     let valid = false;
     const validate = this.ajv.getSchema(name);
 
@@ -39,9 +36,16 @@ class Validator {
       error = err;
     }
 
+    if (error) {
+      errorMessage = `${error[0].instancePath} ${error[0].message}`
+        .trim()
+        .replace(new RegExp('"', 'g'), "'");
+    }
+
     return {
       valid,
       error,
+      errorMessage,
     };
   }
 

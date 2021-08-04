@@ -8,7 +8,7 @@ function errorHandler() {
 
     // NOTE: avoid sending details of crash if caused by internal bugs
     // but I want to notify correctly 503 Service Unavailable too
-    const errorCode = err.code || ERROR_CODES.DEFAULT;
+    const errorCode = err.errorCode || ERROR_CODES.DEFAULT;
     const errorDescription = (category !== 5 || status === 503) ? err.message : 'Internal Server Error';
     const error = (category === 4 || status === 503) ? err.message : err.stack;
 

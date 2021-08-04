@@ -21,9 +21,7 @@ class WeatherService {
     let weather = {};
     const url = '/onecall';
     const { apiKey: appid } = this;
-    const defaultUnits = DEFAULT_APIS.UNITS;
-    const [defaultLanguage] = DEFAULT_APIS.LOCALE.split('_');
-    const { id, units = defaultUnits, lang = defaultLanguage } = options;
+    const { id, units, lang } = options;
     const logger = this.logger.child({ id, units, lang, lat, lon });
     const startTime = Date.now();
 

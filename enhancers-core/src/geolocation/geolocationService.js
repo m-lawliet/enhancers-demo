@@ -1,7 +1,6 @@
 const axios = require('axios');
 
 const configSchema = require('./schemas/geolocationServiceConfig.json');
-const { DEFAULT_APIS } = require('../constants/constants');
 
 class GeolocationService {
   constructor(config, shared) {
@@ -21,10 +20,8 @@ class GeolocationService {
     let results = [];
     const url = '/direct';
     const { apiKey: appid } = this;
-    const defaultLimit = DEFAULT_APIS.LIMIT_LOCATIONS;
-    const [defaultLanguage] = DEFAULT_APIS.LOCALE.split('_');
 
-    const { id, limit = defaultLimit, lang = defaultLanguage } = options;
+    const { id, limit, lang } = options;
     const logger = this.logger.child({ id, name, limit, lang });
     const startTime = Date.now();
 
