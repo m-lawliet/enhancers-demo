@@ -1,4 +1,6 @@
 const axios = require('axios');
+const LRUCache = require('lru-cache');
+const { retryAdapterEnhancer, cacheAdapterEnhancer, throttleAdapterEnhancer } = require('axios-extensions');
 
 const { startTimer } = require('../tools/tools');
 const { LocationNotFoundError, LocationGenericError } = require('./errors');
@@ -14,8 +16,31 @@ class GeolocationService {
     this.apiKey = config.apiKey;
     this.baseURL = config.baseURL;
     this.timeout = config.timeout;
-    const { baseURL, timeout } = this;
-    this.axios = axios.create({ baseURL, timeout });
+    this.retryTimes = config.retryTimes;
+    this.maxCacheAge = config.maxCacheAge;
+    this.maxCacheItems = config.maxCacheItems;
+    this.thresholdThrottle = config.thresholdThrottle;
+
+    const {
+      baseURL,
+      timeout,
+      retryTimes,
+      maxCacheItems: max,
+      maxCacheAge: maxAge,
+      thresholdThrottle: threshold,
+    } = this;
+    const defaultCache = new LRUCache({ max, maxAge });
+
+    // NOTE: This chaining seems a little clunky, but is recommended on axios-extensions.
+    // Consider if a better alternative exists
+    const adapter =
+      retryAdapterEnhancer(
+        throttleAdapterEnhancer(
+          cacheAdapterEnhancer(axios.defaults.adapter),
+          { threshold, retryTimes, defaultCache },
+        ),
+      );
+    this.axios = axios.create({ baseURL, timeout, adapter });
   }
 
   async getLocationsByName(name, options = {}) {
